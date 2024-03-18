@@ -1,18 +1,31 @@
 {
   "name": "analog",
   "version": "1.0.0",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "expo-router/entry",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "ts:check": "tsc"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "^0.2.3",
+    "@tamagui/babel-plugin": "^1.91.4",
+    "@tamagui/config": "^1.91.4",
+    "@tamagui/core": "^1.91.4",
     "expo": "~50.0.13",
+    "expo-constants": "~15.4.5",
+    "expo-font": "~11.10.3",
+    "expo-linking": "~6.2.2",
+    "expo-router": "~3.4.8",
     "expo-status-bar": "~1.11.1",
+    "expo-system-ui": "~2.9.3",
     "react": "18.2.0",
-    "react-native": "0.73.5"
+    "react-native": "0.73.5",
+    "react-native-safe-area-context": "4.8.2",
+    "react-native-screens": "~3.29.0",
+    "tamagui": "^1.91.4"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
