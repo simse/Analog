@@ -1,19 +1,19 @@
 import '@tamagui/core/reset.css';
+import { PersistGate } from 'redux-persist/integration/react';
+import { Provider } from 'react-redux';
 import { TamaguiProvider } from '@tamagui/core';
-import { View } from '@tamagui/core';
-import { StatusBar } from 'expo-status-bar';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import {
     SplashScreen,
-    // This example uses a basic Layout component, but you can use any Layout.
     Slot,
+    Stack
   } from 'expo-router';
 import { useFonts } from 'expo-font';
 import { useColorScheme } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { tamaguiConfig } from '../tamagui.config';
 import { useEffect } from 'react';
+import { persistor, store } from '../store/store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,15 +44,16 @@ export default function App() {
   }
 
   return (
-    <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme || undefined}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <View backgroundColor="$background" flex={1}>
-                <SafeAreaView>
-                    <StatusBar style="auto" />
-                    <Slot />
-                </SafeAreaView>
-            </View>
-        </ThemeProvider>
-    </TamaguiProvider>
+    <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+            <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme || undefined}>
+                <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+                    <Stack>
+                      <Stack.Screen name="new/camera" options={{ title: 'Add Camera', presentation: 'modal' }} />
+                    </Stack>
+                </ThemeProvider>
+            </TamaguiProvider>
+        </PersistGate>
+    </Provider>
   );
 }

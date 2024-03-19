@@ -28,8 +28,8 @@ export const tamaguiConfig = createTamagui({
     ...config,
     fonts: {
         body: bodyFont,
-        heading: headingFont
-    }
+        heading: headingFont,
+    },
 })
 
 export default tamaguiConfig
