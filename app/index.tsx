@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { H1, View, Text, Button } from 'tamagui';
-import { Link, Stack, router } from 'expo-router';
+import { View, Button } from 'tamagui';
+import { Stack, router } from 'expo-router';
 
-import { loadSystemData } from '../features/gear/gearSlice';
-import { cameraTypes } from '../data';
+import { loadSystemData } from '@features/gear/gearSlice';
+import { cameraTypes, lensTypes, filmStocks } from '../data';
 
 
 export default function Page() {
@@ -13,8 +13,8 @@ export default function Page() {
   useEffect(() => {
     dispatch(loadSystemData({
       cameraTypes,
-      lensTypes: [],
-      filmStocks: [],
+      lensTypes,
+      filmStocks,
     }));
   }, []);
 

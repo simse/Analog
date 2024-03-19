@@ -50,6 +50,7 @@ export default function App() {
                 <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
                     <Stack>
                       <Stack.Screen name="new/camera" options={{ title: 'Add Camera', presentation: 'modal' }} />
+                      <Stack.Screen name="new/lens" options={{ title: 'Add Lens', presentation: 'modal' }} />
                     </Stack>
                 </ThemeProvider>
             </TamaguiProvider>

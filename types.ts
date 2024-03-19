@@ -64,9 +64,11 @@ export interface FilmRoll {
 
 export interface Picture {
     id: string;
-    camera: string;
-    lens: string;
-    roll: string;
+    cameraId: string;
+    camera: CameraType;
+    lensId: string;
+    lens: LensType;
+    rollId: string;
     date: string;
     shutterSpeed: number;
     aperture: number;

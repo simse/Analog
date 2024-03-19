@@ -4,22 +4,22 @@ import { Button, H1, View } from "tamagui";
 import { Trash } from "@tamagui/lucide-icons";
 import { Alert } from "react-native";
 
-import { deleteCamera } from "@features/gear/gearSlice";
+import { deleteLens } from "@features/gear/gearSlice";
 import type { IRootState } from "@store";
 
 export default function Page() {
   const { id } = useLocalSearchParams();
   const dispatch = useDispatch();
-  const camera = useSelector((state: IRootState) =>
-    (state.gear.cameras || []).find((camera) => camera.id === id)
+  const lens = useSelector((state: IRootState) =>
+    (state.gear.lenses || []).find((lens) => lens.id === id)
   );
 
-  const { cameraType: cameraTypeId } = camera || {};
-  const cameraType = useSelector((state: IRootState) =>
-    state.gear.cameraTypes.find((cameraType) => cameraType.id === cameraTypeId)
+  const { lensType: lensTypeId } = lens || {};
+  const lensType = useSelector((state: IRootState) =>
+    state.gear.lensTypes.find((lensType) => lensType.id === lensTypeId)
   );
 
-  if (!camera || !cameraType) {
+  if (!lens || !lensType) {
     return null;
   }
 
@@ -27,7 +27,7 @@ export default function Page() {
     <View paddingLeft="$4" paddingRight="$4" paddingTop="$4" flex={1}>
       <Stack.Screen
         options={{
-          title: `${cameraType?.make} ${cameraType?.model}`,
+          title: `${lensType?.make} ${lensType?.model}`,
           headerRight: () => (
             <Button 
               icon={<Trash size="$1" />}
@@ -36,8 +36,8 @@ export default function Page() {
               backgroundColor="$colorTransparent"
               onTouchStart={() => {
                 Alert.alert(
-                  'Delete Camera',
-                  `Do you want remove ${cameraType?.make} ${cameraType?.model} from your gear?`,
+                  'Delete Lens',
+                  `Do you want remove ${lensType?.make} ${lensType?.model} from your gear?`,
                   [
                     {
                       text: 'Cancel',
@@ -45,7 +45,7 @@ export default function Page() {
                     },
                     {
                       text: 'Delete', onPress: () => {
-                        dispatch(deleteCamera(camera.id));
+                        dispatch(deleteLens(lens.id));
                         router.back();
                       },
                       style: 'destructive'
@@ -58,7 +58,7 @@ export default function Page() {
         }}
       />
 
-      <H1>Camera {id}</H1>
+      <H1>Lens {id}</H1>
     </View>
   );
 }

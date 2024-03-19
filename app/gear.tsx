@@ -1,6 +1,7 @@
-import { H1, View } from 'tamagui';
+import { H1, View, YStack } from 'tamagui';
 import { Stack } from 'expo-router';
 import CameraList from '../features/gear/CameraList';
+import LensList from '../features/gear/LensList';
 
 export default function Page() {
   
@@ -14,7 +15,9 @@ export default function Page() {
           }}
         />
 
-        <CameraList />
+      <CameraList />
+
+      <LensList />
     </View>
   );
 }

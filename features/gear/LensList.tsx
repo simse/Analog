@@ -4,16 +4,16 @@ import { Link, router } from 'expo-router';
 import { FlashList } from "@shopify/flash-list";
 import { useSelector } from 'react-redux';
 
-import { IRootState } from '../../store/store';
+import { IRootState } from '@store';
 
-export default function CameraList() {
-  const ownedCameras = useSelector((state: IRootState) => state.gear.cameras);
-  const cameraTypes = useSelector((state: IRootState) => state.gear.cameraTypes);
+export default function LensList() {
+  const ownedLenses = useSelector((state: IRootState) => state.gear.lenses);
+  const lensTypes = useSelector((state: IRootState) => state.gear.lensTypes);
 
-  const ownedCameraTypes = (ownedCameras || []).map((camera) => {
+  const ownedLensTypes = (ownedLenses || []).map((lens) => {
     return {
-        camera,
-        cameraType: cameraTypes.find((cameraType) => cameraType.id === camera.cameraType)
+        lens,
+        lensType: lensTypes.find((lensType) => lensType.id === lens.lensType)
     }
   });
 
@@ -24,13 +24,13 @@ export default function CameraList() {
                 fontWeight={"bold"}
                 fontSize="$7"
                 marginBottom="$2"
-            >Your Cameras</Text>
+            >Your Lenses</Text>
 
-            <Button onTouchStart={() => router.push('/new/camera')}>Add Camera</Button>
+            <Button onTouchStart={() => router.push('/new/lens')}>Add Lens</Button>
         </XStack>
 
         <FlashList
-            data={ownedCameraTypes}
+            data={ownedLensTypes}
             renderItem={({ item }) => {
                 if (!item) {
                     return null;
@@ -38,11 +38,11 @@ export default function CameraList() {
 
                 return (
                     <Link href={{
-                        pathname: `/camera/[id]`,
-                        params: { id: item.camera.id }
+                        pathname: `/lens/[id]`,
+                        params: { id: item.lens.id }
                     }} asChild>
                         <ListItem size="$4" borderRadius="$4" marginBottom="$2">
-                            <Text fontSize="$4">{item.cameraType?.make} {item.cameraType?.model}</Text>
+                            <Text fontSize="$4">{item.lensType?.make} {item.lensType?.model}</Text>
                         </ListItem>
                     </Link>
                 
