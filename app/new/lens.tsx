@@ -37,7 +37,7 @@ export default function Page() {
             type: lensType,
           }));
           router.back();
-          router.navigate(`/lens/${lensId}`);
+          // router.navigate(`/lens/${lensId}`);
         }}
       />
     </View>

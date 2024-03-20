@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Fuse from "fuse.js";
 import { FlashList } from "@shopify/flash-list";
-import { Input, ListItem, Text } from "tamagui";
+import { Input, ListItem, Separator, Text } from "tamagui";
 
 interface SearchListProps<T> {
   items: T[];
@@ -9,6 +9,7 @@ interface SearchListProps<T> {
   onSelect: (item: T) => void;
   listItemTitle: (item: T) => string;
   listItemSubtitle?: (item: T) => string;
+  searchPlaceholder?: string;
 }
 
 export default function SearchList<T>({
@@ -17,6 +18,7 @@ export default function SearchList<T>({
   searchKeys,
   listItemTitle,
   listItemSubtitle,
+  searchPlaceholder,
 }: SearchListProps<T>) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -34,9 +36,12 @@ export default function SearchList<T>({
   return (
     <>
       <Input
-        placeholder="Search for a camera..."
+        placeholder={searchPlaceholder || "Search"}
         borderWidth="$0"
-        marginBottom="$4"
+        borderBottomWidth="$1"
+        marginBottom="$0"
+        borderBottomLeftRadius={"$0"}
+        borderBottomRightRadius={"$0"}
         fontSize="$5"
         value={searchTerm}
         onChangeText={setSearchTerm}
@@ -47,21 +52,32 @@ export default function SearchList<T>({
 
       <FlashList
         data={results}
-        renderItem={({ item }) => {
+        renderItem={({ index, item }) => {
+          // const isFirstItem = index === 0;
+          const isLastItem = index === results.length - 1;
+
           return (
             <ListItem
-              size="$4"
-              borderRadius="$4"
+              paddingTop="$3"
+              paddingBottom="$3"
+              borderBottomWidth={!isLastItem ? "$1" : undefined}
               flexDirection="column"
               alignItems="flex-start"
+              justifyContent="center"
+              borderBottomLeftRadius={isLastItem ? "$4" : undefined}
+              borderBottomRightRadius={isLastItem ? "$4" : undefined}
               onTouchStart={() => onSelect(item)}
             >
               <Text fontSize="$5" fontWeight="bold">
                 {listItemTitle(item)}
               </Text>
-              {listItemSubtitle && <Text fontSize="$4">
-                {listItemSubtitle(item)}
-              </Text>}
+              
+              {listItemSubtitle && (
+                <Text fontSize="$2" color="$gray7">
+                  {listItemSubtitle(item)}
+                </Text>
+              )}
+              <Separator />
             </ListItem>
           );
         }}

@@ -17,6 +17,7 @@ export interface CameraType {
 export interface Camera {
     id: string;
     nickname?: string;
+    displayName: string;
     cameraType: string;
 }
 
@@ -38,6 +39,7 @@ export interface LensType {
 export interface Lens {
     id: string;
     nickname?: string;
+    displayName: string;
     lensType: string;
 }
 

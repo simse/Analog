@@ -18,6 +18,20 @@ export const cameraTypes: CameraType[] = [
         releaseDate: '1979',
         minShutterSpeed: 1,
         maxShutterSpeed: 1 / 1000,
+    },
+    {
+        id: 'olympus-om-30',
+        dataSource: 'system',
+        make: 'Olympus',
+        model: 'OM-30',
+        type: 'SLR',
+        filmFormat: '35mm',
+        mount: 'OM',
+        disposable: false,
+        halfFrame: false,
+        releaseDate: '1983',
+        minShutterSpeed: 1,
+        maxShutterSpeed: 1 / 1000,
     }
 ];
 

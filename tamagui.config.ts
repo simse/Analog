@@ -1,27 +1,14 @@
 import { config } from '@tamagui/config/v3';
 import { createTamagui, createFont } from 'tamagui';
 
-const figtree = {
-    normal: {
-        normal: 'Figtree',
-        italic: 'Figtree-Italic',
-    },
-    bold: {
-        normal: 'Figtree-Bold',
-        italic: 'Figtree-Bold',
-    },
-};
-
 const bodyFont = createFont({
     ...config.fonts.body,
-    family: 'Figtree',
-    face: figtree,
+    family: 'System',
 });
 
 const headingFont = createFont({
     ...config.fonts.heading,
-    family: 'Figtree',
-    face: figtree,
+    family: 'System',
 });
 
 export const tamaguiConfig = createTamagui({

@@ -1,13 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid/non-secure";
-import { View } from "tamagui";
-import { Stack } from "expo-router";
-import { router } from "expo-router";
+import { View, Text } from "tamagui";
+import { Stack, Link, router } from "expo-router";
 
 import { addCamera } from "@features/gear/gearSlice";
 import type { IRootState } from "@store";
 import SearchList from "@components/SearchList";
-import { useEffect } from "react";
 
 export default function Page() {
   const cameraTypes = useSelector(
@@ -19,18 +17,31 @@ export default function Page() {
   // this can happen if the app is reloaded while the modal is open
   const isPresented = router.canGoBack();
 
-  if (!isPresented) {
-    useEffect(() => {
-      router.navigate("/");
-    }, []);
-  }
-
   return (
     <View paddingLeft="$4" paddingRight="$4" paddingTop="$4" flex={1}>
       <Stack.Screen
         options={{
           title: "Add Camera",
           presentation: "modal",
+          headerLeft: () => {
+            if (!isPresented) {
+              return (
+                <Link
+                  href="/"
+                  replace
+                  asChild
+                >
+                  <Text
+                    fontWeight="bold"
+                    fontSize="$4"
+                    color="$blue9"
+                  >
+                    Dismiss
+                  </Text>
+                </Link>
+              );
+            }
+          }
         }}
       />
 
@@ -46,7 +57,7 @@ export default function Page() {
             type: cameraType,
           }));
           router.back();
-          router.navigate(`/camera/${cameraId}`);
+          // router.navigate(`/camera/${cameraId}`);
         }}
       />
     </View>

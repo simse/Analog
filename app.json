@@ -30,13 +30,9 @@
     "plugins": [
       "expo-router",
       [
-        "expo-font",
+        "expo-location",
         {
-          "fonts": [
-            "./assets/fonts/Figtree-Regular.otf",
-            "./assets/fonts/Figtree-Italic.otf",
-            "./assets/fonts/Figtree-Bold.otf"
-          ]
+          "locationAlwaysAndWhenInUsePermission": "Allow Analog to access your location"
         }
       ]
     ],

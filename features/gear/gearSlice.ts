@@ -1,16 +1,14 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { CameraType, LensType, FilmStock, Lens, Camera } from "../../types";
+import { CameraType, LensType, Lens, Camera } from "@types";
 
 const initialState: {
   cameraTypes: CameraType[];
   lensTypes: LensType[];
-  filmStocks: FilmStock[];
   cameras?: Camera[];
   lenses?: Lens[];
 } = {
   cameraTypes: [],
   lensTypes: [],
-  filmStocks: [],
   cameras: [],
   lenses: [],
 };
@@ -24,7 +22,6 @@ export const gearSlice = createSlice({
       action: PayloadAction<{
         cameraTypes: CameraType[];
         lensTypes: LensType[];
-        filmStocks: FilmStock[];
       }>
     ) => {
       let cameraTypes = [
@@ -41,18 +38,10 @@ export const gearSlice = createSlice({
         ...action.payload.lensTypes,
       ];
 
-      let filmStocks = [
-        ...(state.filmStocks || []).filter(
-          (filmStock) => filmStock.dataSource !== "system"
-        ),
-        ...action.payload.filmStocks,
-      ];
-
       return {
         ...state,
         cameraTypes,
         lensTypes,
-        filmStocks,
       };
     },
     addCamera: (
@@ -69,6 +58,7 @@ export const gearSlice = createSlice({
           {
             id: action.payload.id,
             cameraType: action.payload.type.id,
+            displayName: `${action.payload.type.make} ${action.payload.type.model}`,
           },
         ],
       };
@@ -97,6 +87,7 @@ export const gearSlice = createSlice({
           {
             id: action.payload.id,
             lensType: action.payload.type.id,
+            displayName: `${action.payload.type.make} ${action.payload.type.model}`,
           },
         ],
       };

@@ -1,26 +1,18 @@
 import React from 'react';
-import { View, Text, ListItem, Button, XStack, Separator } from 'tamagui';
+import { View, Text, ListItem} from 'tamagui';
 import { Link, router } from 'expo-router';
 import { FlashList } from "@shopify/flash-list";
 import { useSelector } from 'react-redux';
 
 import type { IRootState } from '@store';
 
-export default function CameraList() {
-  const ownedCameras = useSelector((state: IRootState) => state.gear.cameras);
-  const cameraTypes = useSelector((state: IRootState) => state.gear.cameraTypes);
-
-  const ownedCameraTypes = (ownedCameras || []).map((camera) => {
-    return {
-        camera,
-        cameraType: cameraTypes.find((cameraType) => cameraType.id === camera.cameraType)
-    }
-  });
+export default function FilmRollList() {
+  const filmRolls = useSelector((state: IRootState) => state.filmRoll.filmRolls);
 
   return (
     <View flex={1}>
         <FlashList
-            data={ownedCameraTypes}
+            data={filmRolls}
             renderItem={({ index, item }) => {
                 if (!item) {
                     return null;
@@ -28,14 +20,14 @@ export default function CameraList() {
 
                 return (
                     <Link href={{
-                        pathname: `/camera/[id]`,
-                        params: { id: item.camera.id }
+                        pathname: `/roll/[id]`,
+                        params: { id: item.id }
                     }} asChild>
                         <ListItem 
                             size="$4"
                             
                         >
-                            <Text fontSize="$4">{item.cameraType?.make} {item.cameraType?.model}</Text>
+                            <Text fontSize="$4">{item.name}</Text>
                         </ListItem>
                     </Link>
                 
