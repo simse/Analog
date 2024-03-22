@@ -3,18 +3,19 @@ import { View, Button, ScrollView, XStack } from "tamagui";
 interface HorizontalSelectProps {
   options: string[];
   selectedOption: string;
-  setSelectedOption: (option: string) => void;
+  onSelect: (option: string) => void;
 }
 
 const HorizontalSelect = ({
   options,
   selectedOption,
-  setSelectedOption,
+  onSelect,
 }: HorizontalSelectProps) => {
   return (
     <ScrollView
       maxWidth="100%"
       horizontal
+      
     >
 
       {options.map((option) => (
@@ -27,7 +28,7 @@ const HorizontalSelect = ({
           marginRight="$1.5"
           paddingHorizontal="$3"
           fontWeight="bold"
-          onPress={() => setSelectedOption(option)}
+          onPress={() => onSelect(option)}
         >
           {option}
         </Button>

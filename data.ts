@@ -16,8 +16,8 @@ export const cameraTypes: CameraType[] = [
         disposable: false,
         halfFrame: false,
         releaseDate: '1979',
-        minShutterSpeed: 1,
-        maxShutterSpeed: 1 / 1000,
+        minShutterSpeed: 1 / 1000,
+        maxShutterSpeed: 1,
     },
     {
         id: 'olympus-om-30',
@@ -30,8 +30,8 @@ export const cameraTypes: CameraType[] = [
         disposable: false,
         halfFrame: false,
         releaseDate: '1983',
-        minShutterSpeed: 1,
-        maxShutterSpeed: 1 / 1000,
+        minShutterSpeed: 1 / 1000,
+        maxShutterSpeed: 1,
     }
 ];
 

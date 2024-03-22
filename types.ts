@@ -30,8 +30,8 @@ export interface LensType {
   releaseDate: string;
   minFocalLength?: number;
   maxFocalLength?: number;
-  maxAperture?: number;
-  minAperture?: number;
+  maxAperture: number;
+  minAperture: number;
   mount?: string;
   image?: string;
 }
@@ -88,7 +88,7 @@ export interface Session {
   id: string;
   location?: string;
   notes?: string;
-  roll: string;
+  rollId: string;
   paused: boolean;
   started: string;
   finished?: string;

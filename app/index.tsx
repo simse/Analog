@@ -13,6 +13,8 @@ import {
 } from "@features/filmRoll/filmRollSlice";
 import { cameraTypes, lensTypes, filmStocks } from "../data";
 import FilmRollList from "@features/filmRoll/FilmRollList";
+import ActiveSession from "@components/ActiveSession";
+
 
 export default function Page() {
   const dispatch = useDispatch();
@@ -69,7 +71,9 @@ export default function Page() {
         }}
       />
 
-      <FilmRollList />
+      <ActiveSession />
+
+      <FilmRollList onNewFilmRollClick={() => router.navigate("/new/roll")} />
     </View>
   );
 }

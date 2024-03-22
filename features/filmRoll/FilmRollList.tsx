@@ -1,18 +1,22 @@
 import React from "react";
-import { View, Text, ListItem, XStack } from "tamagui";
+import { View, Text, ListItem, XStack, Button } from "tamagui";
 import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 import { useSelector } from "react-redux";
 
 import type { IRootState } from "@store";
 
-export default function FilmRollList() {
-  let filmRolls = useSelector(
-    (state: IRootState) => state.filmRoll.filmRolls
-  );
+interface FilmRollListProps {
+  onNewFilmRollClick?: () => void;
+}
 
-  // sort film rolls by date
-  filmRolls.sort((a, b) => {
+export default function FilmRollList({
+  onNewFilmRollClick,
+}: FilmRollListProps) {
+  const filmRolls = useSelector((state: IRootState) => state.filmRoll.filmRolls);
+
+  // sort film rolls by date without mutating
+  const sortedFilmRolls = [...filmRolls].sort((a, b) => {
     if (new Date(a.started) < new Date(b.started)) {
       return 1;
     }
@@ -24,50 +28,72 @@ export default function FilmRollList() {
 
   return (
     <View flex={1}>
-      <Text fontSize="$5" fontWeight="bold" marginBottom="$2">
-        Your Film Rolls
-      </Text>
+      {filmRolls.length > 0 ? (
+        <FlashList
+          data={sortedFilmRolls}
+          renderItem={({ item }) => {
+            if (!item) {
+              return null;
+            }
 
-      <FlashList
-        data={filmRolls}
-        renderItem={({ item }) => {
-          if (!item) {
-            return null;
-          }
-
-          return (
-            <Link
-              href={{
-                pathname: `/view/roll/[id]`,
-                params: { id: item.id },
-              }}
-              asChild
-            >
-              <ListItem
-                size="$4"
-                borderRadius="$4"
-                marginBottom="$2"
-                flexDirection="row"
+            return (
+              <Link
+                href={{
+                  pathname: `/view/roll/[id]`,
+                  params: { id: item.id },
+                }}
+                asChild
               >
-                <XStack
-                  alignItems="center"
-                  justifyContent="space-between"
-                  width="100%"
+                <ListItem
+                  size="$4"
+                  borderRadius="$4"
+                  marginBottom="$2"
+                  flexDirection="row"
                 >
-                  <Text fontSize="$5" fontWeight="bold">
-                    {item.name || item.filmType.name}
-                  </Text>
-                  <Text fontFamily="$mono" fontWeight="bold">
-                    {item.pictures.length} / {item.length}
-                  </Text>
-                </XStack>
-                <Text></Text>
-              </ListItem>
-            </Link>
-          );
-        }}
-        estimatedItemSize={76}
-      />
+                  <XStack
+                    alignItems="center"
+                    justifyContent="space-between"
+                    width="100%"
+                  >
+                    <Text fontSize="$5" fontWeight="bold">
+                      {item.name || item.filmType.name}
+                    </Text>
+                    <Text fontFamily="$mono" fontWeight="bold">
+                      {item.pictures.length} / {item.length}
+                    </Text>
+                  </XStack>
+                  <Text></Text>
+                </ListItem>
+              </Link>
+            );
+          }}
+          estimatedItemSize={76}
+        />
+      ) : (
+        <View
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+          width="100%"
+          borderRadius="$4"
+          backgroundColor="$gray1"
+        >
+          <Text fontWeight="bold" fontSize="$6" marginBottom="$2">
+            No film rolls yet
+          </Text>
+
+          {onNewFilmRollClick && (
+            <Button
+              color="$blue10"
+              fontWeight="bold"
+              fontSize="$5"
+              onTouchStart={() => onNewFilmRollClick()}
+            >
+              Register Film Roll
+            </Button>
+          )}
+        </View>
+      )}
     </View>
   );
 }

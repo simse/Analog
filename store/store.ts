@@ -13,10 +13,12 @@ import ExpoFileSystemStorage from "redux-persist-expo-filesystem";
 
 import gearReducer from "@features/gear/gearSlice";
 import filmRollReducer from "@features/filmRoll/filmRollSlice";
+import seesionReducer from "@features/session/sessionSlice";
 
 const rootReducer = combineReducers({
   gear: gearReducer,
   filmRoll: filmRollReducer,
+  session: seesionReducer,
 });
 
 const persistConfig = {
@@ -39,3 +41,4 @@ export const store = configureStore({
 export const persistor = persistStore(store);
 
 export type IRootState = ReturnType<typeof rootReducer>;
+

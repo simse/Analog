@@ -40,6 +40,10 @@ export default function App() {
                 name="new/picture"
                 options={{ title: "Log Picture", presentation: "modal" }}
               />
+              <Stack.Screen
+                name="new/roll"
+                options={{ title: "Register Film Roll" }}
+              />
             </Stack>
           </ThemeProvider>
         </TamaguiProvider>

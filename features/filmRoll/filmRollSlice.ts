@@ -38,6 +38,14 @@ export const filmRollSlice = createSlice({
         filmRolls: [...(state.filmRolls || []), action.payload],
       };
     },
+    deleteFilmRoll: (state, action: PayloadAction<string>) => {
+      return {
+        ...state,
+        filmRolls: state.filmRolls.filter(
+          (filmRoll) => filmRoll.id !== action.payload
+        ),
+      };
+    },
     updateCurrentlyEditingFilmRoll: (
       state,
       action: PayloadAction<Partial<FilmRoll>>
@@ -99,6 +107,7 @@ export const filmRollSlice = createSlice({
 export const {
   loadSystemData,
   addFilmRoll,
+  deleteFilmRoll,
   updateCurrentlyEditingFilmRoll,
   clearCurrentlyEditingFilmRoll,
   commitCurrentlyEditingFilmRoll,

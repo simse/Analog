@@ -144,22 +144,26 @@ export default function Page() {
       >
         {[24, 36].map((length) => (
           <Button
-          backgroundColor={currentFilmRoll.length === length ? "$blue8" : "$gray6"}
-          padding="$2"
-          borderRadius={999}
-          size="$3"
-          marginRight="$1.5"
-          paddingHorizontal="$3"
-          fontWeight="bold"
-          onPress={() => {
-            dispatch(
-              updateCurrentlyEditingFilmRoll({
-                length: length,
-              })
-            );
-          
-          }}
-        ><Text>{length}</Text></Button>))}
+            key={`length-${length}`}
+            backgroundColor={
+              currentFilmRoll.length === length ? "$blue8" : "$gray6"
+            }
+            borderRadius={999}
+            size="$2"
+            marginRight="$1.5"
+            paddingHorizontal="$3"
+            fontWeight="bold"
+            onPress={() => {
+              dispatch(
+                updateCurrentlyEditingFilmRoll({
+                  length: length,
+                })
+              );
+            }}
+          >
+            <Text>{length}</Text>
+          </Button>
+        ))}
 
         <Input
           placeholder="Custom"
