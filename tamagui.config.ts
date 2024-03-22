@@ -6,6 +6,11 @@ const bodyFont = createFont({
     family: 'System',
 });
 
+const monoFont = createFont({
+    ...config.fonts.mono,
+    family: 'Courier New',
+});
+
 const headingFont = createFont({
     ...config.fonts.heading,
     family: 'System',
@@ -16,6 +21,7 @@ export const tamaguiConfig = createTamagui({
     fonts: {
         body: bodyFont,
         heading: headingFont,
+        mono: monoFont,
     },
 })
 

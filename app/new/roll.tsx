@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { View, Text, Button, Input } from "tamagui";
+import { View, Text, Button, Input, XStack } from "tamagui";
 import { Stack, Link, router } from "expo-router";
 import { ChevronRight } from "@tamagui/lucide-icons";
 
-import { updateCurrentlyEditingFilmRoll, commitCurrentlyEditingFilmRoll } from "@features/filmRoll/filmRollSlice";
+import {
+  updateCurrentlyEditingFilmRoll,
+  commitCurrentlyEditingFilmRoll,
+} from "@features/filmRoll/filmRollSlice";
 
 import type { IRootState } from "@store";
 
@@ -23,7 +26,7 @@ const SelectButton = ({
         borderRadius={0}
         backgroundColor="$gray1"
         borderWidth="$0"
-        borderBottomWidth="1"
+        borderBottomWidth={1}
         borderColor="$gray4"
         justifyContent="space-between"
         iconAfter={<ChevronRight size="$1" marginRight="$-2" color="$gray8" />}
@@ -43,11 +46,7 @@ export default function Page() {
     (state: IRootState) => state.filmRoll.currentlyEditingFilmRoll
   );
 
-  const selectedFilmStock = useSelector((state: IRootState) =>
-    state.filmRoll.filmStocks.find(
-      (filmStock) => filmStock.id === currentFilmRoll?.filmType
-    )
-  );
+  const selectedFilmStock = currentFilmRoll?.filmType;
 
   const selectedCamera = useSelector((state: IRootState) =>
     state.gear.cameras?.find(
@@ -136,22 +135,47 @@ export default function Page() {
         href="/select/film"
       />
 
-      <Input
-        placeholder="Roll Length (e.g. 24 or 36)"
-        value={currentFilmRoll.length?.toString() || ""}
-        autoComplete="off"
-        autoCorrect={false}
-        borderWidth="$0"
-        borderTopLeftRadius={0}
-        borderTopRightRadius={0}
-        onChangeText={(length) => {
-          dispatch(
-            updateCurrentlyEditingFilmRoll({
-              length: parseInt(length),
-            })
-          );
-        }}
-      />
+      <XStack
+        backgroundColor="$gray1"
+        borderBottomEndRadius="$2"
+        borderBottomStartRadius="$2"
+        alignItems="center"
+        paddingLeft="$3"
+      >
+        {[24, 36].map((length) => (
+          <Button
+          backgroundColor={currentFilmRoll.length === length ? "$blue8" : "$gray6"}
+          padding="$2"
+          borderRadius={999}
+          size="$3"
+          marginRight="$1.5"
+          paddingHorizontal="$3"
+          fontWeight="bold"
+          onPress={() => {
+            dispatch(
+              updateCurrentlyEditingFilmRoll({
+                length: length,
+              })
+            );
+          
+          }}
+        ><Text>{length}</Text></Button>))}
+
+        <Input
+          placeholder="Custom"
+          value={currentFilmRoll.length?.toString() || ""}
+          autoComplete="off"
+          autoCorrect={false}
+          borderWidth="$0"
+          onChangeText={(length) => {
+            dispatch(
+              updateCurrentlyEditingFilmRoll({
+                length: parseInt(length),
+              })
+            );
+          }}
+        />
+      </XStack>
 
       <Text color="$black9" marginTop={8}>
         {currentFilmRoll.id}

@@ -1,40 +1,73 @@
-import React from 'react';
-import { View, Text, ListItem} from 'tamagui';
-import { Link, router } from 'expo-router';
+import React from "react";
+import { View, Text, ListItem, XStack } from "tamagui";
+import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 
-import type { IRootState } from '@store';
+import type { IRootState } from "@store";
 
 export default function FilmRollList() {
-  const filmRolls = useSelector((state: IRootState) => state.filmRoll.filmRolls);
+  let filmRolls = useSelector(
+    (state: IRootState) => state.filmRoll.filmRolls
+  );
+
+  // sort film rolls by date
+  filmRolls.sort((a, b) => {
+    if (new Date(a.started) < new Date(b.started)) {
+      return 1;
+    }
+    if (new Date(a.started) > new Date(b.started)) {
+      return -1;
+    }
+    return 0;
+  });
 
   return (
     <View flex={1}>
-        <FlashList
-            data={filmRolls}
-            renderItem={({ index, item }) => {
-                if (!item) {
-                    return null;
-                }
+      <Text fontSize="$5" fontWeight="bold" marginBottom="$2">
+        Your Film Rolls
+      </Text>
 
-                return (
-                    <Link href={{
-                        pathname: `/roll/[id]`,
-                        params: { id: item.id }
-                    }} asChild>
-                        <ListItem 
-                            size="$4"
-                            
-                        >
-                            <Text fontSize="$4">{item.name}</Text>
-                        </ListItem>
-                    </Link>
-                
-                );
-            }}
-            estimatedItemSize={76}
-        />
+      <FlashList
+        data={filmRolls}
+        renderItem={({ item }) => {
+          if (!item) {
+            return null;
+          }
+
+          return (
+            <Link
+              href={{
+                pathname: `/view/roll/[id]`,
+                params: { id: item.id },
+              }}
+              asChild
+            >
+              <ListItem
+                size="$4"
+                borderRadius="$4"
+                marginBottom="$2"
+                flexDirection="row"
+              >
+                <XStack
+                  alignItems="center"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  <Text fontSize="$5" fontWeight="bold">
+                    {item.name || item.filmType.name}
+                  </Text>
+                  <Text fontFamily="$mono" fontWeight="bold">
+                    {item.pictures.length} / {item.length}
+                  </Text>
+                </XStack>
+                <Text></Text>
+              </ListItem>
+            </Link>
+          );
+        }}
+        estimatedItemSize={76}
+      />
     </View>
   );
 }

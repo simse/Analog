@@ -5,7 +5,6 @@ import CameraList from '@features/gear/CameraList';
 
 export default function Page() {
   
-
   return (
     <View paddingLeft="$4" paddingRight="$4" paddingTop="$4" flex={1}>
         <Stack.Screen

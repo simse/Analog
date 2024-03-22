@@ -27,6 +27,7 @@ export default function App() {
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
           >
             <Stack>
+              <Stack.Screen name="index" />
               <Stack.Screen
                 name="new/camera"
                 options={{ title: "Add Camera", presentation: "modal" }}
@@ -34,6 +35,10 @@ export default function App() {
               <Stack.Screen
                 name="new/lens"
                 options={{ title: "Add Lens", presentation: "modal" }}
+              />
+              <Stack.Screen
+                name="new/picture"
+                options={{ title: "Log Picture", presentation: "modal" }}
               />
             </Stack>
           </ThemeProvider>

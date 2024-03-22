@@ -40,7 +40,7 @@ export default function Page() {
         onSelect={(filmStock) => {
           dispatch(
             updateCurrentlyEditingFilmRoll({
-              filmType: filmStock.id,
+              filmType: filmStock,
             })
           );
           router.dismiss();

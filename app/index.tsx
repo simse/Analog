@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { nanoid } from "nanoid/non-secure";
-import { View, Button, XStack } from "tamagui";
+import { View, Button } from "tamagui";
 import { Plus, Settings } from "@tamagui/lucide-icons";
 import { Stack, router } from "expo-router";
 
@@ -45,7 +45,11 @@ export default function Page() {
                 const rollId = nanoid();
 
                 dispatch(clearCurrentlyEditingFilmRoll());
-                dispatch(updateCurrentlyEditingFilmRoll({ id: rollId }));
+                dispatch(updateCurrentlyEditingFilmRoll({ 
+                  id: rollId,
+                  pictures: [],
+                  started: new Date().toISOString(),
+                }));
 
                 router.navigate("/new/roll");
               }}

@@ -11,6 +11,9 @@ export default function Page() {
   const lenses = useSelector(
     (state: IRootState) => state.gear.lenses
   );
+  const lensTypes = useSelector(
+    (state: IRootState) => state.gear.lensTypes
+  );
   const dispatch = useDispatch();
 
 
@@ -39,6 +42,7 @@ export default function Page() {
           dispatch(
             updateCurrentlyEditingFilmRoll({
               selectedLens: lens.id,
+              selectedLensType: lensTypes.find((lensType) => lensType.id === lens.lensType),
             })
           );
           router.dismiss();

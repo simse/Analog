@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { FilmStock, FilmRoll } from "@types";
+import { FilmStock, FilmRoll, Picture } from "@types";
 
 const initialState: {
   filmStocks: FilmStock[];
@@ -69,6 +69,29 @@ export const filmRollSlice = createSlice({
       }
 
       return state;
+    },
+    addPictureToFilmRoll: (
+      state,
+      action: PayloadAction<{ filmRollId: string; picture: Picture }>
+    ) => {
+      let filmRoll = state.filmRolls.find(
+        (filmRoll) => filmRoll.id === action.payload.filmRollId
+      );
+
+      if (filmRoll) {
+        let pictures = [...filmRoll.pictures, action.payload.picture];
+
+        return {
+          ...state,
+          filmRolls: state.filmRolls.map((filmRoll) =>
+            filmRoll.id === action.payload.filmRollId
+              ? { ...filmRoll, pictures }
+              : filmRoll
+          ),
+        };
+      }
+
+      return state;
     }
   },
 });
@@ -78,7 +101,8 @@ export const {
   addFilmRoll,
   updateCurrentlyEditingFilmRoll,
   clearCurrentlyEditingFilmRoll,
-  commitCurrentlyEditingFilmRoll
+  commitCurrentlyEditingFilmRoll,
+  addPictureToFilmRoll,
 } = filmRollSlice.actions;
 
 export default filmRollSlice.reducer;

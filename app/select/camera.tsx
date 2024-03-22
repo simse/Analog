@@ -58,6 +58,7 @@ export default function Page() {
           dispatch(
             updateCurrentlyEditingFilmRoll({
               selectedCamera: camera.id,
+              selectedCameraType: camera.cameraType,
             })
           );
           router.dismiss();
