@@ -113,6 +113,7 @@ export default function Page() {
                 backgroundColor="$colorTransparent"
                 fontWeight="bold"
                 fontSize="$5"
+                paddingRight="$0"
                 color={canSave ? "$blue9" : "$gray6"}
               >
                 Save

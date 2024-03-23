@@ -21,10 +21,13 @@ export default function LensList() {
     <View flex={1}>
       <FlashList
         data={ownedLensTypes}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           if (!item) {
             return null;
           }
+
+          const isLast = index === ownedLensTypes.length - 1;
+          const isFirst = index === 0;
 
           return (
             <Link
@@ -34,8 +37,14 @@ export default function LensList() {
               }}
               asChild
             >
-              <ListItem size="$4" borderRadius="$4" marginBottom="$2">
-                <Text fontSize="$4">
+              <ListItem 
+                size="$4"
+                borderTopLeftRadius={isFirst ? "$4" : "$0"}
+                borderTopRightRadius={isFirst ? "$4" : "$0"}
+                borderBottomLeftRadius={isLast ? "$4" : "$0"}
+                borderBottomRightRadius={isLast ? "$4" : "$0"}
+              >
+                <Text fontSize="$5" fontWeight="bold">
                   {item.lensType?.make} {item.lensType?.model}
                 </Text>
               </ListItem>

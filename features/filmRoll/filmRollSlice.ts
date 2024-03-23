@@ -13,6 +13,20 @@ const initialState: {
 export const filmRollSlice = createSlice({
   name: "filmRoll",
   initialState,
+  selectors: {
+    getFilmRolls: (state) => state.filmRolls,
+    getPicture: (state, filmRollId: string, pictureId: string) => {
+      let filmRoll = state.filmRolls.find(
+        (filmRoll) => filmRoll.id === filmRollId
+      );
+
+      if (filmRoll) {
+        return filmRoll.pictures.find((picture) => picture.id === pictureId);
+      }
+
+      return undefined;
+    }
+  },
   reducers: {
     loadSystemData: (
       state,
@@ -100,6 +114,29 @@ export const filmRollSlice = createSlice({
       }
 
       return state;
+    },
+    deleteLastPictureFromFilmRoll: (
+      state,
+      action: PayloadAction<{ filmRollId: string }>
+    ) => {
+      let filmRoll = state.filmRolls.find(
+        (filmRoll) => filmRoll.id === action.payload.filmRollId
+      );
+
+      if (filmRoll) {
+        let pictures = filmRoll.pictures.slice(0, -1);
+
+        return {
+          ...state,
+          filmRolls: state.filmRolls.map((filmRoll) =>
+            filmRoll.id === action.payload.filmRollId
+              ? { ...filmRoll, pictures }
+              : filmRoll
+          ),
+        };
+      }
+
+      return state;
     }
   },
 });
@@ -112,6 +149,12 @@ export const {
   clearCurrentlyEditingFilmRoll,
   commitCurrentlyEditingFilmRoll,
   addPictureToFilmRoll,
+  deleteLastPictureFromFilmRoll
 } = filmRollSlice.actions;
+
+export const {
+  getFilmRolls,
+  getPicture
+} = filmRollSlice.selectors;
 
 export default filmRollSlice.reducer;

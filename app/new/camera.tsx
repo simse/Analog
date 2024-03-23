@@ -1,11 +1,12 @@
 import { useSelector, useDispatch } from "react-redux";
 import { nanoid } from "nanoid/non-secure";
 import { View, Text } from "tamagui";
-import { Stack, Link, router } from "expo-router";
+import { Stack, router } from "expo-router";
 
 import { addCamera } from "@features/gear/gearSlice";
 import type { IRootState } from "@store";
 import SearchList from "@components/SearchList";
+import { HeaderBackButton } from "@components/HeaderBackButton";
 
 export default function Page() {
   const cameraTypes = useSelector(
@@ -23,25 +24,7 @@ export default function Page() {
         options={{
           title: "Add Camera",
           presentation: "modal",
-          headerLeft: () => {
-            if (!isPresented) {
-              return (
-                <Link
-                  href="/"
-                  replace
-                  asChild
-                >
-                  <Text
-                    fontWeight="bold"
-                    fontSize="$4"
-                    color="$blue9"
-                  >
-                    Dismiss
-                  </Text>
-                </Link>
-              );
-            }
-          }
+          headerLeft: () => <HeaderBackButton isPresented={isPresented} text="Dismiss" />,
         }}
       />
 
@@ -49,7 +32,7 @@ export default function Page() {
         items={cameraTypes}
         searchKeys={["make", "model"]}
         listItemTitle={(item) => `${item.make} ${item.model}`}
-        listItemSubtitle={(item) => item.type}
+        listItemSubtitle={(item) => `${item.type} - ${item.filmFormat}`}
         onSelect={(cameraType) => {
           const cameraId = nanoid();
           dispatch(addCamera({

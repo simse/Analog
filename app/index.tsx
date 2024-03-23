@@ -13,7 +13,7 @@ import {
 } from "@features/filmRoll/filmRollSlice";
 import { cameraTypes, lensTypes, filmStocks } from "../data";
 import FilmRollList from "@features/filmRoll/FilmRollList";
-import ActiveSession from "@components/ActiveSession";
+import ActiveSession from "@features/session/ActiveSession";
 
 
 export default function Page() {

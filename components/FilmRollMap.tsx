@@ -57,7 +57,7 @@ export default function FilmRollMap({ filmRoll }: FilmRollMapProps) {
       marginBottom="$4"
     >
       <MapView
-        initialRegion={{
+        region={{
           latitude: center.latitude,
           longitude: center.longitude,
           latitudeDelta: delta.latitude,

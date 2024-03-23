@@ -1,7 +1,8 @@
 import { useState } from "react";
 import Fuse from "fuse.js";
 import { FlashList } from "@shopify/flash-list";
-import { Input, ListItem, Separator, Text } from "tamagui";
+import { Input, ListItem, Separator, Text, View } from "tamagui";
+import { Pressable } from "react-native";
 
 interface SearchListProps<T> {
   items: T[];
@@ -34,7 +35,7 @@ export default function SearchList<T>({
       : fuse.search(searchTerm).map((result) => result.item);
 
   return (
-    <>
+    <View flex={1} marginBottom="$4">
       <Input
         placeholder={searchPlaceholder || "Search"}
         borderWidth="$0"
@@ -53,36 +54,36 @@ export default function SearchList<T>({
       <FlashList
         data={results}
         renderItem={({ index, item }) => {
-          // const isFirstItem = index === 0;
           const isLastItem = index === results.length - 1;
 
           return (
-            <ListItem
-              paddingTop="$3"
-              paddingBottom="$3"
-              borderBottomWidth={!isLastItem ? "$1" : undefined}
-              flexDirection="column"
-              alignItems="flex-start"
-              justifyContent="center"
-              borderBottomLeftRadius={isLastItem ? "$4" : undefined}
-              borderBottomRightRadius={isLastItem ? "$4" : undefined}
-              onTouchStart={() => onSelect(item)}
-            >
-              <Text fontSize="$5" fontWeight="bold">
-                {listItemTitle(item)}
-              </Text>
-              
-              {listItemSubtitle && (
-                <Text fontSize="$2" color="$gray7">
-                  {listItemSubtitle(item)}
+            <Pressable onPress={() => onSelect(item)}>
+              <ListItem
+                paddingTop="$3"
+                paddingBottom="$3"
+                borderBottomWidth={!isLastItem ? "$1" : undefined}
+                flexDirection="column"
+                alignItems="flex-start"
+                justifyContent="center"
+                borderBottomLeftRadius={isLastItem ? "$4" : undefined}
+                borderBottomRightRadius={isLastItem ? "$4" : undefined}
+              >
+                <Text fontSize="$5" fontWeight="bold">
+                  {listItemTitle(item)}
                 </Text>
-              )}
-              <Separator />
-            </ListItem>
+                
+                {listItemSubtitle && (
+                  <Text fontSize="$2" color="$gray11">
+                    {listItemSubtitle(item)}
+                  </Text>
+                )}
+                <Separator />
+              </ListItem>
+            </Pressable>
           );
         }}
         estimatedItemSize={90}
       />
-    </>
+    </View>
   );
 }

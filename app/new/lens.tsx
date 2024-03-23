@@ -7,14 +7,13 @@ import { router } from "expo-router";
 import { addLens } from "@features/gear/gearSlice";
 import type { IRootState } from "@store";
 import SearchList from "@components/SearchList";
+import { HeaderBackButton } from "@components/HeaderBackButton";
 
 export default function Page() {
-
   const lensTypes = useSelector(
     (state: IRootState) => state.gear.lensTypes
   );
   const dispatch = useDispatch();
-
 
   return (
     <View paddingLeft="$4" paddingRight="$4" paddingTop="$4" flex={1}>
@@ -22,6 +21,7 @@ export default function Page() {
         options={{
           title: "Add Lens",
           presentation: "modal",
+          headerLeft: () => <HeaderBackButton isPresented={router.canGoBack()} text="Dismiss" />,
         }}
       />
 
@@ -37,7 +37,6 @@ export default function Page() {
             type: lensType,
           }));
           router.back();
-          // router.navigate(`/lens/${lensId}`);
         }}
       />
     </View>

@@ -14,7 +14,11 @@ export const sessionSlice = createSlice({
   reducers: {
     startSession: (state, action: PayloadAction<Session>) => {
       // stop any other sessions
-      const sessions = state.map((session) => ({ ...session, paused: false, finished: new Date().toISOString() }));
+      const sessions = state.map((session) => ({
+        ...session,
+        paused: false,
+        finished: new Date().toISOString(),
+      }));
 
       return [...sessions, action.payload];
     },
@@ -38,6 +42,32 @@ export const sessionSlice = createSlice({
     clearSessions: () => {
       return [];
     },
+    addSessionLiveActivity: (
+      state,
+      action: PayloadAction<{
+        sessionId: string;
+        activity: string;
+      }>
+    ) => {
+      return state.map((session) =>
+        session.id === action.payload.sessionId
+          ? {
+              ...session,
+              liveActivityId: action.payload.activity,
+            }
+          : session
+      );
+    },
+    clearSessionLiveActivity: (state, action: PayloadAction<string>) => {
+      return state.map((session) =>
+        session.id === action.payload
+          ? {
+              ...session,
+              liveActivityId: undefined,
+            }
+          : session
+      );
+    },
   },
 });
 
@@ -47,6 +77,8 @@ export const {
   resumeSession,
   finishSession,
   clearSessions,
+  addSessionLiveActivity,
+  clearSessionLiveActivity,
 } = sessionSlice.actions;
 
 export const { getSession, getActiveSession } = sessionSlice.selectors;

@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams, router } from "expo-router";
 import { useSelector, useDispatch } from "react-redux";
-import { Button, View } from "tamagui";
+import { Button, ScrollView, View, Text } from "tamagui";
 import { Plus, Trash } from "@tamagui/lucide-icons";
 import { Alert } from "react-native";
 
@@ -10,7 +10,9 @@ import { deleteFilmRoll } from "@features/filmRoll/filmRollSlice";
 import { getActiveSession, startSession } from "@features/session/sessionSlice";
 import { nanoid } from "nanoid/non-secure";
 import FilmRollMap from "@components/FilmRollMap";
-import ActiveSession from "@components/ActiveSession";
+import ActiveSession from "@features/session/ActiveSession";
+import { areActivitiesEnabled, startActivity } from "@modules/session-activity";
+import { startSessionActivity } from "@features/session/sessionLiveActivity";
 
 export default function Page() {
   const { id } = useLocalSearchParams();
@@ -83,25 +85,46 @@ export default function Page() {
         }
       />
 
-      {!rollHasActiveSession && <Button
-        marginBottom="$4"
-        onTouchStart={() => {
-          dispatch(startSession({
-            id: nanoid(),
-            paused: false,
-            rollId: filmRoll.id,
-            started: new Date().toISOString(),
-          }))
-        }}
-      >
-        Start Session™
-      </Button>}
+      <ScrollView>
+        {!rollHasActiveSession && (
+          <Button
+            marginBottom="$4"
+            onTouchStart={() => {
+              dispatch(
+                startSession({
+                  id: nanoid(),
+                  paused: false,
+                  rollId: filmRoll.id,
+                  started: new Date().toISOString(),
+                })
+              );
 
-      <ActiveSession />
+              startSessionActivity("Session", filmRoll.pictures.length + 1, filmRoll.length);
+            }}
+          >
+            Start Session™
+          </Button>
+        )}
 
-      <FilmRollMap filmRoll={filmRoll} />
+        <ActiveSession />
 
-      <PictureList filmRollId={id as string} />
+        <FilmRollMap filmRoll={filmRoll} />
+
+        <View
+          borderRadius="$4"
+          backgroundColor="$gray1"
+          marginBottom="$4"
+          padding="$3"
+        >
+          <Text fontSize="$5">Selected Camera</Text>
+          <Text fontWeight="bold" fontSize="$5">
+            {filmRoll.selectedCameraType.make}{" "}
+            {filmRoll.selectedCameraType.model}
+          </Text>
+        </View>
+
+        <PictureList filmRollId={id as string} />
+      </ScrollView>
     </View>
   );
 }

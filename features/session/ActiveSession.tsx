@@ -2,17 +2,29 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { View, Text, XStack, Separator, Button } from "tamagui";
 import * as Location from "expo-location";
+import * as Haptics from "expo-haptics";
 import CircularProgress from "react-native-circular-progress-indicator";
 import { nanoid } from "nanoid/non-secure";
+import { Save, X, Undo2 } from "@tamagui/lucide-icons";
 
-import { finishSession, getActiveSession } from "@features/session/sessionSlice";
+import {
+  finishSession,
+  getActiveSession,
+} from "@features/session/sessionSlice";
 import { IRootState } from "@store";
 import {
   generateApertures,
   generateShutterSpeeds,
 } from "@features/gear/smartValues";
-import HorizontalSelect from "./HorizontalSelect";
-import { addPictureToFilmRoll } from "@features/filmRoll/filmRollSlice";
+import HorizontalSelect from "@components/HorizontalSelect";
+import {
+  addPictureToFilmRoll,
+  deleteLastPictureFromFilmRoll,
+} from "@features/filmRoll/filmRollSlice";
+import {
+  endSessionActivity,
+  startSessionActivity,
+} from "./sessionLiveActivity";
 
 interface ActiveSessionProps {}
 
@@ -92,18 +104,48 @@ export default function ActiveSession({}: ActiveSessionProps) {
       })
     );
 
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     setSaveButtonText("Saved!");
     setTimeoutCountdown(null);
+    endSessionActivity(
+      "Session",
+      activeSessionRoll.pictures.length + 1,
+      activeSessionRoll.length
+    );
+    startSessionActivity(
+      "Session",
+      activeSessionRoll.pictures.length + 2,
+      activeSessionRoll.length
+    );
     setTimeout(() => {
       setSaveButtonText("Save");
     }, 2000);
+  };
+
+  const canUndo = (): boolean => {
+    // check that last picture was taken within the last 30 seconds
+    const lastPicture =
+      activeSessionRoll.pictures[activeSessionRoll.pictures.length - 1];
+
+    if (!lastPicture) {
+      return false;
+    }
+
+    const lastPictureDate = new Date(lastPicture.date);
+    const now = new Date();
+
+    if (now.getTime() - lastPictureDate.getTime() > 30000) {
+      return false;
+    }
+
+    return true;
   };
 
   return (
     <View
       backgroundColor="$gray1"
       borderRadius="$4"
-      marginBottom="$2"
+      marginBottom="$4"
       padding="$3"
     >
       <XStack alignItems="center" marginBottom="$4">
@@ -134,6 +176,7 @@ export default function ActiveSession({}: ActiveSessionProps) {
           onSelect={(value) => {
             setShutterSpeed(value);
             onChange();
+            Haptics.selectionAsync();
           }}
         />
 
@@ -145,6 +188,7 @@ export default function ActiveSession({}: ActiveSessionProps) {
           onSelect={(value) => {
             setAperture(value);
             onChange();
+            Haptics.selectionAsync();
           }}
         />
 
@@ -156,7 +200,8 @@ export default function ActiveSession({}: ActiveSessionProps) {
           borderRadius={999}
           fontWeight="bold"
           backgroundColor="$blue8"
-          flex={2}
+          flex={5}
+          icon={<Save size="$1" />}
           onTouchEnd={commitPicture}
         >
           {timeoutCountdown ? `Saving in ${timeoutCountdown}` : saveButtonText}
@@ -165,12 +210,50 @@ export default function ActiveSession({}: ActiveSessionProps) {
         <Button
           flex={1}
           borderRadius={999}
+          icon={<Undo2 size="$1" />}
+          disabled={!canUndo()}
+          color={canUndo() ? "$white" : "$gray10"}
           onTouchEnd={() => {
-            dispatch(finishSession(activeSession.id));
+            if (!canUndo()) {
+              Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+              return;
+            }
+
+            dispatch(
+              deleteLastPictureFromFilmRoll({
+                filmRollId: activeSession.rollId,
+              })
+            );
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+            endSessionActivity(
+              "Session",
+              activeSessionRoll.pictures.length + 1,
+              activeSessionRoll.length
+            );
+            startSessionActivity(
+              "Session",
+              activeSessionRoll.pictures.length,
+              activeSessionRoll.length
+            );
           }}
-        >
-          End Session
-        </Button>
+        />
+
+        <Button
+          flex={1}
+          borderRadius={999}
+          icon={<X size="$1" />}
+          onTouchEnd={() => {
+            // end live activity
+            endSessionActivity(
+              "Session",
+              activeSessionRoll.pictures.length + 1,
+              activeSessionRoll.length
+            );
+
+            dispatch(finishSession(activeSession.id));
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          }}
+        />
       </XStack>
     </View>
   );
