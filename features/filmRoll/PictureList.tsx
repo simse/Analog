@@ -35,9 +35,13 @@ export default function PictureList({
             size="$4"
             borderRadius="$4"
             marginBottom="$2"
-            flexDirection="row"
+            flexDirection="column"
+            alignItems="flex-start"
+            paddingVertical="$3"
+            gap="$1"
           >
-            <Text>Picture {index + 1}</Text>
+            <Text fontSize="$5" fontWeight="bold">Picture {index + 1}</Text>
+            <Text>{new Date(picture.date).toLocaleString('en-UK')}</Text>
           </ListItem>
         </Link>
       ))}

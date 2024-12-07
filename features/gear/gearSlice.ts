@@ -102,9 +102,29 @@ export const gearSlice = createSlice({
         lenses: state.lenses.filter((lens) => lens.id !== action.payload),
       };
     },
+    clearLenses: (state) => {
+      return {
+        ...state,
+        lenses: [],
+      };
+    },
+    clearCameras: (state) => {
+      return {
+        ...state,
+        cameras: [],
+      };
+    },
   },
 });
 
-export const { loadSystemData, addCamera, deleteCamera, addLens, deleteLens } = gearSlice.actions;
+export const {
+  loadSystemData,
+  addCamera,
+  deleteCamera,
+  addLens,
+  deleteLens,
+  clearLenses,
+  clearCameras,
+} = gearSlice.actions;
 
 export default gearSlice.reducer;

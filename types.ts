@@ -92,5 +92,4 @@ export interface Session {
   paused: boolean;
   started: string;
   finished?: string;
-  liveActivityId?: string;
 }

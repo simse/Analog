@@ -172,7 +172,7 @@ export default function Page() {
         Camera Settings
       </Text>
       <View
-        borderRadius="$3"
+        borderRadius="$4"
         backgroundColor="$gray2"
         padding="$2"
         marginBottom="$4"

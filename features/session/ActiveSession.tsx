@@ -108,12 +108,12 @@ export default function ActiveSession({}: ActiveSessionProps) {
     setSaveButtonText("Saved!");
     setTimeoutCountdown(null);
     endSessionActivity(
-      "Session",
+      activeSessionRoll.name || "Session",
       activeSessionRoll.pictures.length + 1,
       activeSessionRoll.length
     );
     startSessionActivity(
-      "Session",
+      activeSessionRoll.name || "Session",
       activeSessionRoll.pictures.length + 2,
       activeSessionRoll.length
     );
@@ -226,12 +226,12 @@ export default function ActiveSession({}: ActiveSessionProps) {
             );
             Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
             endSessionActivity(
-              "Session",
+              activeSessionRoll.name || "Session",
               activeSessionRoll.pictures.length + 1,
               activeSessionRoll.length
             );
             startSessionActivity(
-              "Session",
+              activeSessionRoll.name || "Session",
               activeSessionRoll.pictures.length,
               activeSessionRoll.length
             );
@@ -245,7 +245,7 @@ export default function ActiveSession({}: ActiveSessionProps) {
           onTouchEnd={() => {
             // end live activity
             endSessionActivity(
-              "Session",
+              activeSessionRoll.name || "Session",
               activeSessionRoll.pictures.length + 1,
               activeSessionRoll.length
             );

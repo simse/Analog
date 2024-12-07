@@ -1,7 +1,9 @@
-import { Button, View, Text } from 'tamagui';
-import { Link, Stack } from 'expo-router';
-import { useDispatch } from 'react-redux';
-import { clearSessions } from '@features/session/sessionSlice';
+import { Button, View, Text } from "tamagui";
+import { Link, Stack } from "expo-router";
+import { useDispatch } from "react-redux";
+import { clearSessions } from "@features/session/sessionSlice";
+import { clearCameras, clearLenses } from "@features/gear/gearSlice";
+import { clearFilmRolls } from "@features/filmRoll/filmRollSlice";
 
 export default function Page() {
   const dispatch = useDispatch();
@@ -10,7 +12,7 @@ export default function Page() {
     <View paddingLeft="$4" paddingRight="$4" paddingTop="$4" flex={1}>
       <Stack.Screen
         options={{
-          title: 'Settings',
+          title: "Settings",
         }}
       />
 
@@ -22,7 +24,39 @@ export default function Page() {
         <Button>Lenses</Button>
       </Link>
 
-      <Text fontSize="$5" fontWeight="bold" marginBottom="$2" marginTop="$5">Debug</Text>
+      <Text fontSize="$5" fontWeight="bold" marginBottom="$2" marginTop="$5">
+        Debug
+      </Text>
+
+      <Button
+        color="$red10"
+        fontWeight="bold"
+        onTouchStart={() => {
+          dispatch(clearCameras());
+        }}
+      >
+        Clear Owned Cameras
+      </Button>
+
+      <Button
+        color="$red10"
+        fontWeight="bold"
+        onTouchStart={() => {
+          dispatch(clearLenses());
+        }}
+      >
+        Clear Owned Lenses
+      </Button>
+
+      <Button
+        color="$red10"
+        fontWeight="bold"
+        onTouchStart={() => {
+          dispatch(clearFilmRolls());
+        }}
+      >
+        Clear Film Rolls
+      </Button>
 
       <Button
         color="$red10"
@@ -30,7 +64,22 @@ export default function Page() {
         onTouchStart={() => {
           dispatch(clearSessions());
         }}
-      >Clear Sessions</Button>
+      >
+        Clear Sessions
+      </Button>
+
+      <Button
+        color="$red10"
+        fontWeight="bold"
+        onTouchStart={() => {
+          dispatch(clearCameras());
+          dispatch(clearLenses());
+          dispatch(clearFilmRolls());
+          dispatch(clearSessions());
+        }}
+      >
+        Clear All Data
+      </Button>
     </View>
   );
 }

@@ -83,7 +83,9 @@ export const filmRollSlice = createSlice({
         return {
           ...state,
           filmRolls: [
-            ...(state.filmRolls || []),
+            ...state.filmRolls.filter(
+              (filmRoll) => filmRoll.id !== state.currentlyEditingFilmRoll?.id
+            ),
             state.currentlyEditingFilmRoll as FilmRoll,
           ],
           currentlyEditingFilmRoll: undefined,
@@ -137,8 +139,14 @@ export const filmRollSlice = createSlice({
       }
 
       return state;
+    },
+    clearFilmRolls: (state) => {
+      return {
+        ...state,
+        filmRolls: [],
+      };
     }
-  },
+  }
 });
 
 export const {
@@ -149,7 +157,8 @@ export const {
   clearCurrentlyEditingFilmRoll,
   commitCurrentlyEditingFilmRoll,
   addPictureToFilmRoll,
-  deleteLastPictureFromFilmRoll
+  deleteLastPictureFromFilmRoll,
+  clearFilmRolls
 } = filmRollSlice.actions;
 
 export const {
